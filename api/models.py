@@ -17,3 +17,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['created']
+
+class Category(models.Model):
+    name = models.TextField(blank=False)
+    owner = models.ManyToManyField('auth.User')
+    post = models.ForeignKey('Post', related_name='comments', on_delete=models.CASCADE)
