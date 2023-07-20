@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     title = models.CharField(max_length=100, blank=True, default='')
@@ -9,7 +8,6 @@ class Post(models.Model):
 
     class Meta:
         ordering = ['created']
-
 
 class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)

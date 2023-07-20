@@ -1,6 +1,5 @@
 from . import serializers
 from django.contrib.auth.models import User
-from .models import Post
 from rest_framework import generics, permissions
 from .serializers import PostSerializer
 from .permissions import IsOwnerOrReadOnly
@@ -35,7 +34,6 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly]
-
 
 class UserList(generics.ListAPIView):
     queryset = User.objects.all()
