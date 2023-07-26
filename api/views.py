@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import generics, permissions
 from .serializers import PostSerializer
 from .permissions import IsOwnerOrReadOnly
-from .models import Post, Comment
+from .models import Post, Comment, Category
 
 class CommentList(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
@@ -42,3 +42,18 @@ class UserList(generics.ListAPIView):
 class UserDetail(generics.RetrieveAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
+
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = serializers.CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class = serializers.PostSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+                          IsOwnerOrReadOnly]
